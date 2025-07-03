@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>কুইজ প্রতিযোগিতা - জুলাই মাস</title>
+    <style>
+        body { font-family: 'Siyam Rupali', sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: auto; padding: 20px; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; color: #333; }
+        button, input { padding: 10px; margin-top: 10px; width: 100%; }
+        #balance { font-size: 18px; margin-top: 20px; color: green; text-align: center; }
+        .popup { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #d4edda; color: #155724; padding: 15px 25px; border-radius: 5px; z-index: 9999; border: 1px solid #c3e6cb; }
+        .copy-row { display: flex; gap: 10px; margin-top: 10px; }
+        .copy-row input { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="popup" id="popupMsg"></div>
+    <div class="container">
+        <h1>জুলাই মাস উপলক্ষে কুইজ প্রতিযোগিতা</h1>
+        <p>তিনটি প্রশ্নের উত্তর দিয়ে আপনি পেতে পারেন সর্বোচ্চ ১০০ থেকে ২০০ টাকা পর্যন্ত মোবাইল রিচার্জ।</p>
+        <a href="https://otieu.com/4/9349412"><button>রেজিস্ট্রেশন করুন</button></a>
+
+        <h2>প্রশ্নমালা</h2>
+        <form id="quizForm">
+            <p>১. জুলাই আন্দোলন কবে শুরু হয়?</p>
+            <input type="text" required><br>
+            <p>২. আন্দোলনের প্রধান উদ্দেশ্য কী ছিল?</p>
+            <input type="text" required><br>
+            <p>৩. এতে কারা অংশগ্রহণ করে?</p>
+            <input type="text" required><br>
+            <button type="submit">জমা দিন</button>
+        </form>
+
+        <div id="balance">আপনার বর্তমান ব্যালেন্স: <span id="wallet">০</span> টাকা</div>
+
+        <hr>
+        <h2>দশজনকে রেফার করে ২০০ টাকা জিতুন।</h2>
+        <div class="copy-row">
+            <input type="text" id="refLink" value="https://yourwebsite.com?ref=YOURCODE" readonly>
+            <button onclick="copyReferral()">কপি করুন</button>
+        </div>
+
+        <hr>
+        <h2>রিচার্জের জন্য আবেদন করুন</h2>
+        <form id="rechargeForm">
+            <input type="text" placeholder="আপনার নাম" required><br>
+            <input type="text" placeholder="মোবাইল নাম্বার" required><br>
+            <button type="submit">জমা দিন</button>
+        </form>
+    </div>
+
+    <script>
+        let wallet = 0;
+        let registered = false;
+
+        function showPopup(message) {
+            const popup = document.getElementById("popupMsg");
+            popup.innerText = message;
+            popup.style.display = "block";
+            setTimeout(() => { popup.style.display = "none"; }, 4000);
+        }
+
+        function copyReferral() {
+            const refInput = document.getElementById("refLink");
+            refInput.select();
+            document.execCommand("copy");
+            showPopup("✅ রেফার লিঙ্ক কপি হয়েছে!");
+        }
+
+        document.getElementById("quizForm").addEventListener("submit", function(e){
+            e.preventDefault();
+            wallet += 60;
+            registered = true;
+            document.getElementById("wallet").innerText = wallet;
+            showPopup("✅ আপনি সঠিক উত্তর দিয়েছেন এবং আপনি তিনটি প্রশ্নের জন্য পেয়েছেন ৬০ টাকা।");
+        });
+
+        document.getElementById("rechargeForm").addEventListener("submit", function(e){
+            e.preventDefault();
+            if (!registered) {
+                showPopup("⚠️ আপনি এখনো রেজিস্ট্রেশন করুননি। উপরে রেজিস্ট্রেশন করুন।");
+            } else {
+                showPopup("🔄 আমরা আপনার রিচার্জ সম্পন্ন করছি। আমাদের অল্প কিছুক্ষণ সময় দিয়ে সাথেই থাকুন।");
+            }
+        });
+    </script>
+</body>
+</html>
